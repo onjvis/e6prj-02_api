@@ -1,5 +1,6 @@
 const Bin = require('../models/bin');
 const ObjectId = require('mongoose').Types.ObjectId;
+const jwt = require('jsonwebtoken');
 
 module.exports.getBin = async function(req, res, next) {
     try {
@@ -39,11 +40,17 @@ module.exports.getAllBins = async function(req, res, next) {
 };
 
 module.exports.createBin = async function(req, res, next) {
+    const token = req.headers.authorization.replace('Bearer ', '');
+    if (jwt.decode(token).role !== token) {
+        return res.status(401).json({ 'message': 'You need to be an admin to create bins!' });
+    }
     if (!req.body.location.latitude || !req.body.location.longitude || !req.body.battery || !req.body.fullness)  {
-        return res.status(400).json({ 'message': 'Bin needs the following parameters: latitude, longitude, battery, fullness!' });
+        return res.status(400).json({ 'message': 'Bin needs the following parameters: latitude, longitude, battery, ' +
+                'fullness!' });
     } else {
         try {
-            const bin = new Bin({ location: { latitude: req.body.location.latitude, longitude: req.body.location.longitude }, battery: req.body.battery, fullness: req.body.fullness });
+            const bin = new Bin({ location: { latitude: req.body.location.latitude,
+                    longitude: req.body.location.longitude }, battery: req.body.battery, fullness: req.body.fullness });
             await bin.save();
             res.send(bin);
         } catch (err) {

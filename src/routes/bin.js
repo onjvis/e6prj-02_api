@@ -6,11 +6,11 @@ const router = express.Router();
 const jwtAuth = jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] });
 
 router.route('/:binId')
-    .get(binController.getBin)
+    .get(jwtAuth, binController.getBin)
     .put(jwtAuth, binController.updateBin);
 
 router.route('/')
-    .get(binController.getAllBins)
+    .get(jwtAuth, binController.getAllBins)
     .post(jwtAuth, binController.createBin);
 
 module.exports = router;

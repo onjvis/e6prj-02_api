@@ -1,5 +1,6 @@
 const Route = require('../models/route');
 const ObjectId = require('mongoose').Types.ObjectId;
+const jwt = require('jsonwebtoken');
 
 module.exports.getRoute = async function(req, res, next) {
     try {
@@ -23,6 +24,10 @@ module.exports.getAllRoutes = async function(req, res, next) {
 };
 
 module.exports.createRoute = async function(req, res, next) {
+    const token = req.headers.authorization.replace('Bearer ', '');
+    if (jwt.decode(token).role !== token) {
+        return res.status(401).json({ 'message': 'You need to be an admin to create routes!' });
+    }
     if (!req.body.bins) {
         return res.status(400).json({ 'message': 'Route needs bins object assigned to it!' });
     } else {

@@ -22,12 +22,13 @@ userSchema.methods.isValidPassword = async function(password) {
     return await bcrypt.compare(password, this.hash);
 };
 
-userSchema.methods.generateJwt= function() {
+userSchema.methods.generateJwt = function() {
     let expiry = new Date();
     expiry.setDate(expiry.getDate() + 1);
     return jwt.sign({
         _id: this._id,
         username: this.username,
+        role: this.role,
         exp: parseInt(expiry.getTime() / 1000), // as Unix time in seconds
     }, process.env.JWT_SECRET);
 };
