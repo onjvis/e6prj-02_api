@@ -24,3 +24,10 @@ To able to access the API, we have to navigate to the `/api` route. We provide t
 * `/api/warning/:warningID` for accessing the warnings.
 * `/api/route` for acccessing existing routes and creating new routes.
 * `/api/route/:routeID` for accessing the routes.
+
+
+## Deployment
+
+For the deployment of the API we chose Heroku, since it offers free app and it is convenient and easy to use.
+The API can be accessed on this website: `https://e6prj-02-api.herokuapp.com`.
+We recommend using HTTP request tool (such as Postman) to perform GET, POST and PUT requests.
