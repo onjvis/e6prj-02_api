@@ -41,7 +41,7 @@ module.exports.getAllBins = async function(req, res, next) {
 
 module.exports.createBin = async function(req, res, next) {
     const token = req.headers.authorization.replace('Bearer ', '');
-    if (jwt.decode(token).role !== token) {
+    if (jwt.decode(token).role !== 'admin') {
         return res.status(401).json({ 'message': 'You need to be an admin to create bins!' });
     }
     if (!req.body.location.latitude || !req.body.location.longitude || !req.body.battery || !req.body.fullness)  {

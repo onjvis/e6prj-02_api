@@ -25,7 +25,7 @@ module.exports.getAllRoutes = async function(req, res, next) {
 
 module.exports.createRoute = async function(req, res, next) {
     const token = req.headers.authorization.replace('Bearer ', '');
-    if (jwt.decode(token).role !== token) {
+    if (jwt.decode(token).role !== 'admin') {
         return res.status(401).json({ 'message': 'You need to be an admin to create routes!' });
     }
     if (!req.body.bins) {
