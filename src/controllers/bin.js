@@ -19,10 +19,18 @@ module.exports.updateBin = async function(req, res, next) {
         if (!ObjectId.isValid(req.params.binId) || !await Bin.exists({ _id: req.params.binId})) {
             return res.status(404).json({ 'message': 'Bin not found!' });
         }
+        if (!req.body.battery && !req.body.fullness) {
+            return res.status(400)
+                .json({ 'message': 'Cannot send empty request. Specify battery or fullness or both.' });
+        }
         const bin = await Bin.findById(req.params.binId);
         // Update bin with battery and fullness readings
-        bin.battery = req.body.battery;
-        bin.fullness = req.body.fullness;
+        if (req.body.battery) {
+            bin.battery = req.body.battery;
+        }
+        if (req.body.fullness) {
+            bin.fullness = req.body.fullness;
+        }
         await bin.save();
         res.send(bin);
     } catch (err) {
