@@ -7,7 +7,7 @@ const jwtAuth = jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] });
 
 router.route('/:binId')
     .get(jwtAuth, binController.getBin)
-    .put(jwtAuth, binController.updateBin);
+    .put(binController.updateBin);
 
 router.route('/')
     .get(jwtAuth, binController.getAllBins)
