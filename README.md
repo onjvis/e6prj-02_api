@@ -1,4 +1,4 @@
-# E6PJ-02 API
+# BCollect API
 API for the E20_E6PJ-02.
 For our semester project we needed to create API to be able to store and access the data collected by the bins. 
 
